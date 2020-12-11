@@ -20,9 +20,16 @@ namespace JobBoard.Controllers
         }
 
         // GET: Job
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Jobs.ToListAsync());
+            var jobs = from j in _context.Jobs
+                       select j;
+            
+            if(!string.IsNullOrEmpty(searchString) ){
+                jobs = jobs.Where(s => s.JobTitle.Contains(searchString));
+            }
+
+            return View(await jobs.ToListAsync());
         }
 
         // GET: Job/Details/5
