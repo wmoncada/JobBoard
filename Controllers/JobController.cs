@@ -11,6 +11,7 @@ namespace JobBoard.Controllers
 {
     public class JobController : Controller
     {
+        private const string ACTIVE_DAYS = "ACTIVE_DAYS";
         private readonly JobContext _context;
 
         public JobController(JobContext context)
@@ -57,6 +58,17 @@ namespace JobBoard.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Gets default expiration days
+                var Config = from cc in _context.Configurations
+                             where cc.Id == ACTIVE_DAYS
+                             select cc;
+                var conf = Config.FirstOrDefault();
+                int days = (conf == null) ? 30 : int.Parse(conf.Value);
+
+                job.Id = Guid.NewGuid().ToString();
+                job.CreatedAt = DateTime.Today;
+                job.ExpiresAt = job.CreatedAt.Add(new System.TimeSpan(days, 0, 0, 0));
+
                 _context.Add(job);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
