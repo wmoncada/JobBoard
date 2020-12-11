@@ -13,21 +13,14 @@ namespace JobBoard.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private JobContext _context;
-
-        public HomeController(JobContext context)
-        {
-            _context = context;
-        }
-/*
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-*/
+
         public IActionResult Index()
         {            
-            return View(_context.Jobs);
+            return View();
         }
 
         public IActionResult Privacy()
