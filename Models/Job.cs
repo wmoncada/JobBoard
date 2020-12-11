@@ -17,7 +17,13 @@ namespace JobBoard.Models
         [MaxLength(2000, ErrorMessage = "The Job description is too long. The maximun Length is 2000 characters.")]
         [Display(Prompt = "Essential responsibilities, activities, qualifications and skills of the role.", Name = "Job Description")]
         public string Description { get; set; }
+
+        [Display(Name = "Created At")]
+        [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; }
+
+        [Display(Name = "Expires At")]
+        [DataType(DataType.Date)]
         public DateTime ExpiresAt { get; set; }
 
         public Job(string id, string title, string desc, DateTime created, DateTime expires)
